@@ -50,4 +50,13 @@ function checkWinner() {
     });
 }
 
+function restartGame() {
+    board = Array(9).fill(null);
+    cells.forEach(cell => (cell.textContent = ''));
+    currentPlayer = 'X';
+    gameActive = true;
+    statusText.textContent = `It's ${currentPlayer}'s turn`;
+}
 
+cells.forEach(cell => cell.addEventListener('click', handleClick));
+statusText.textContent = `It's ${currentPlayer}'s turn`;
