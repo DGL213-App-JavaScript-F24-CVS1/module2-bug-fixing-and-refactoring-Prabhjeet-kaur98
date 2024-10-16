@@ -87,11 +87,17 @@ function transposeGrid() {
 
 function render(grid) {
     for (let i = 0; i < grid.length; i++) {
-        ctx.fillStyle = `rgb(${grid[i][0]}, ${grid[i][1]}, ${grid[i][2]})`;
-        ctx.fillRect((i % CELLS_PER_AXIS) * CELL_WIDTH, Math.floor(i / CELLS_PER_AXIS) * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+        const [r, g, b] = grid[i];
+        ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+        ctx.fillRect(
+            (i % CELLS_PER_AXIS) * CELL_WIDTH,
+            Math.floor(i / CELLS_PER_AXIS) * CELL_HEIGHT,
+            CELL_WIDTH, CELL_HEIGHT
+        );
     }
-    playerScoreText.textContent = playerScore;
+    playerScoreText.textContent = `Score: ${playerScore}`;
 }
+
 
 function updateGridAt(mousePositionX, mousePositionY) {
     const gridCoordinates = convertCartesiansToGrid(mousePositionX, mousePositionY);
