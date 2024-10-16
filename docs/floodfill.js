@@ -95,11 +95,18 @@ function render(grid) {
 
 function updateGridAt(mousePositionX, mousePositionY) {
     const gridCoordinates = convertCartesiansToGrid(mousePositionX, mousePositionY);
-    const newGrid = grids[grids.length-1].slice(); 
-    floodFill(newGrid, gridCoordinates, newGrid[gridCoordinates.column * CELLS_PER_AXIS + gridCoordinates.row])
-    grids.push(newGrid);
-    render(grids[grids.length-1]);    
+    const newGrid = grids[grids.length - 1].slice(); 
+    const originalColor = newGrid[gridCoordinates.row * CELLS_PER_AXIS + gridCoordinates.column];
+
+    // Proceed only if the clicked cell's color is different from the selected color
+    if (!arraysAreEqual(originalColor, replacementColor)) {
+        floodFill(newGrid, gridCoordinates, originalColor);
+        grids.push(newGrid); // Save the new state to history.
+        render(newGrid);
+        updatePlayerScore();
+    }
 }
+
 
 function updatePlayerScore() {
 playerScore = playerScore > 0 ? playerScore -= 1 : 0;
