@@ -115,8 +115,9 @@ function updateGridAt(mousePositionX, mousePositionY) {
 
 
 function updatePlayerScore() {
-playerScore = playerScore > 0 ? playerScore -= 1 : 0;
+    playerScore = playerScore > 0 ? playerScore - 1 : 0;
 }
+
 
 function floodFill(grid, gridCoordinate, colorToChange) {
     const index = gridCoordinate.row * CELLS_PER_AXIS + gridCoordinate.column;
