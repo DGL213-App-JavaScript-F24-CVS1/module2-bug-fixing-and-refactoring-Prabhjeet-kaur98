@@ -42,3 +42,12 @@ function handleClick(e) {
     statusText.textContent = `It's ${currentPlayer}'s turn`;
 }
 
+function checkWinner() {
+    return winningCombinations.some(combination => {
+        return combination.every(index => {
+            return board[index] === currentPlayer;
+        });
+    });
+}
+
+
