@@ -105,18 +105,28 @@ function updatePlayerScore() {
 playerScore = playerScore > 0 ? playerScore -= 1 : 0;
 }
 
-function floodFill(grid, gridCoordinate, colorToChange) { 
-    if (arraysAreEqual(colorToChange, replacementColor)) { return } //The current cell is already the selected color
-    else if (!arraysAreEqual(grid[gridCoordinate.row * CELLS_PER_AXIS + gridCoordinate.column], colorToChange)) { return }  //The current cell is a different color than the initially clicked-on cell
-    else {
-        grid[gridCoordinate.row * CELLS_PER_AXIS + gridCoordinate.column] = replacementColor;
-        floodFill(grid, {column: Math.max(gridCoordinate.column - 1, 0), row: gridCoordinate.row}, colorToChange);
-        floodFill(grid, {column: Math.min(gridCoordinate.column + 1, CELLS_PER_AXIS - 1), row: gridCoordinate.row}, colorToChange);
-        floodFill(grid, {column: gridCoordinate.column, row: Math.max(gridCoordinate.row - 1, 0)}, colorToChange);
-        floodFill(grid, {column: gridCoordinate.column, row: Math.min(gridCoordinate.row + 1, CELLS_PER_AXIS - 1)}, colorToChange);
+function floodFill(grid, gridCoordinate, colorToChange) {
+    const index = gridCoordinate.row * CELLS_PER_AXIS + gridCoordinate.column;
+
+    // If the cell is out of bounds or not of the color we want to change, return
+    if (
+        gridCoordinate.row < 0 || gridCoordinate.row >= CELLS_PER_AXIS ||
+        gridCoordinate.column < 0 || gridCoordinate.column >= CELLS_PER_AXIS ||
+        !arraysAreEqual(grid[index], colorToChange)
+    ) {
+        return;
     }
-    return
+
+    // Change the color of the current cell
+    grid[index] = replacementColor;
+
+    // Recursively flood fill in all four directions
+    floodFill(grid, { row: gridCoordinate.row - 1, column: gridCoordinate.column }, colorToChange);
+    floodFill(grid, { row: gridCoordinate.row + 1, column: gridCoordinate.column }, colorToChange);
+    floodFill(grid, { row: gridCoordinate.row, column: gridCoordinate.column - 1 }, colorToChange);
+    floodFill(grid, { row: gridCoordinate.row, column: gridCoordinate.column + 1 }, colorToChange);
 }
+
 
 function restart() {
     startGame(grids[0]);
