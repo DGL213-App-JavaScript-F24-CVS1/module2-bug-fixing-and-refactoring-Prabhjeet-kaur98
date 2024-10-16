@@ -14,3 +14,31 @@ const winningCombinations = [
     [0, 4, 8],
     [2, 4, 6]
 ];
+
+function handleClick(e) {
+    const cell = e.target;
+    const cellIndex = Array.from(cells).indexOf(cell);
+
+    if (board[cellIndex] !== null || !gameActive) {
+        return;
+    }
+
+    board[cellIndex] = currentPlayer;
+    cell.textContent = currentPlayer;
+
+    if (checkWinner()) {
+        statusText.textContent = `${currentPlayer} wins!`;
+        gameActive = false;
+        return;
+    }
+
+    if (board.every(cell => cell !== null)) {
+        statusText.textContent = 'It\'s a draw!';
+        gameActive = false;
+        return;
+    }
+
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    statusText.textContent = `It's ${currentPlayer}'s turn`;
+}
+
